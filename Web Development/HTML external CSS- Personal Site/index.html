@@ -4,56 +4,33 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ben Deprez</title>
+    <link rel="stylesheet" href="styles.css">
 
-    <style>
-      body {
-        background-color: rgb(255, 249, 239);
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        margin: 20px 50px 20px 50px;
-      }
-
-      hr {
-        border-style: none;
-        border-top: dotted;
-        border-width: 6px;
-        width: 5%;
-        opacity: 0.5;
-        margin: 30px auto 30px auto;
-      }
-    </style>
   </head>
   <body>
-    <!--HEADER BEGIN-->
-    <h1>Benjamien S. Deprez</h1>
-    <p>
-      <em
-        >Administrator at
-        <strong>
+    <div class="wrapper">
+      <!--HEADER BEGIN-->
+    <div class="headerContainer">
+      <h1 class="header">Benjamien S. Deprez</h1>
+      <div class="description">
+        <p>Administrator at
           <a
             href="https://stad.gent/nl/samenleven-welzijn-gezondheid/welzijn/digitaaltalentgent-alle-gentenaars-digitaal/digipunten-gebruik-gratis-een-computer-met-internetverbinding"
             >Digipunt</a
           >
-        </strong>
-        Vlaamsekaai 10, 9000 Gent.</em
-      >
-    </p>
-    <p>
-      <em
-        >Junior Developer at
-        <strong>
+        Vlaamsekaai  •  Full Stack Developer at
           <a href="http://www.ateljeevzw.be/nl/home">VZW Ateljee</a>
-        </strong>
-        (DigiWie project).</em
-      >
-    </p>
-    <p>
-      I am a full stack web developer with a focus on React based applications.
-    </p>
+      </div>
+    
+    <div class="pagelink" ><a href="contact.html">Contact</a></div>
+    </div>
+    
     <!--HEADER END-->
 
     <!--EDUCATION BEGIN-->
-    <hr />
-    <h3>Learning</h3>
+    
+    <div class="contentContainer">
+      <h3>Learning</h3>
     <ul>
       <li>FreeCodeCamp</li>
       <ul>
@@ -84,11 +61,16 @@
         <li>Economics</li>
       </ul>
     </ul>
+    </div>
+    
     <hr>
+    <!--EDUCATION END-->
 
     <!--SKILL BEGIN-->
-    <h3>Skills</h3>
-    <table cellspacing="10px">
+    
+    <div class="contentContainer">
+      <h3>Skills</h3>
+      <table cellspacing="10px">
             <tbody>
               <tr>
                 <td>HTML</td>
@@ -135,15 +117,16 @@
               </tr>
             </tbody>
     </table>
-    <br>
+    </div>
+    <hr/>
     <!--SKILL END-->
 
-    <!--EDUCATION END-->
-
     <!--WORK EXPERIENCE BEGIN-->
-    <hr/>
-    <h3>Work experience</h3>
-    <table border="1px" cellpadding="10px">
+    
+    
+    <div class="contentContainer">
+      <h3>Work experience</h3>
+      <table border="1px" cellpadding="10px">
       <thead>
         <tr>
           <th>Date</th>
@@ -161,13 +144,16 @@
         </tr>
       </tbody>
     </table>
-    <br>
+    </div>
+    <hr />
     <!--WORK EXPIERENCE END-->
 
     <!--PROJECTS BEGIN-->
-    <hr />
-    <h3>Personal projects</h3>
-    <a href="https://github.com/BenjamienSD">Github repositories</a>
+    
+    
+    <div class="contentContainer">
+      <h3>Personal projects</h3>
+       <a href="https://github.com/BenjamienSD">Github repositories</a>
     <br />
     <ul>
       <li><a href="https://bsdgithubfinder.netlify.app/">Github Finder</a></li>
@@ -178,11 +164,9 @@
         (Uses free Heroku account for hosting, initial loading is slow)
       </li>
     </ul>
-    <br>
+    </div>
     <!--PROJECTS END-->
-
-    <hr />
-    <div style="text-align: center;"><a href="contact.html">Contact</a></div>
-    <br>
+    </div>
+    
   </body>
 </html>
