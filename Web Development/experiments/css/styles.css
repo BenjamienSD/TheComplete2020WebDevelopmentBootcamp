@@ -1,0 +1,73 @@
+@font-face {
+  font-family: Amsterdam One;
+  src: url(../fonts/AmsterdamOne-eZ12l.ttf);
+}
+@font-face {
+  font-family: Pixel Operator;
+  src: url(../fonts/PixelOperator.ttf);
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+}
+
+.navbar {
+  position: fixed;
+  background-color: #a6d0e4;
+  height: 20px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: right;
+  padding: 10px 0px 10px 0px;
+  z-index: 1000;
+}
+
+.navbarItem {
+  margin-right: 10px;
+  text-decoration: none;
+  color: black;
+}
+
+.top-container {
+  background-color: #a6d0e4;
+  height: 300px;
+  padding-top: 5vh;
+}
+.middle-container {
+  background-color: #ffecda;
+  height: 100vh;
+}
+.bottom-container {
+  background-color: #f9ffea;
+  height: 100vh;
+}
+
+h1 {
+  font-size: 4em;
+  color: #f9ffea;
+}
+
+.monospaced {
+  text-align: center;
+  font-family: 'Pixel Operator', monospace;
+  font-size: 2em;
+  margin: 5px 0px;
+}
+
+.scripted {
+  text-align: center;
+  font-family: 'Amsterdam One', sans-serif;
+  font-size: 3em;
+  font-weight: 400;
+  margin: 10px 0px;
+}
+
+.illustrations {
+  scale: 1;
+  position: relative;
+  display: flex;
+  justify-content: center;
+}
