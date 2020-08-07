@@ -13,3 +13,7 @@ Collection of all projects made in the bootcamp.
 # CSS
 
 • Stylised personal website
+
+# Bootstrap
+
+• TinDog
