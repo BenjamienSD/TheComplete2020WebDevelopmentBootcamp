@@ -7,7 +7,7 @@ Collection of all projects made in the bootcamp.
 # HTML
 
 • Personal website (html only)  
-• Personal website (internal CSS)
+• Personal website (internal CSS)  
 • Personal website (external CSS)
 
 # CSS
