@@ -10,76 +10,110 @@
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
     />
 
+    <!-- Font Awesome-->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+    />
+
     <!-- Custom CSS-->
     <link rel="stylesheet" href="css/styles.css" />
 
-    <!-- Fonts -->
+    <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@900&family=Ubuntu:wght@400;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;900&family=Ubuntu:wght@400;900&display=swap"
       rel="stylesheet"
     />
   </head>
 
   <body>
+    <!-- TITLE -->
     <section id="title">
-      <!-- Nav Bar -->
-      <!-- NAVBAR -->
-      <nav class="navbar navbar-expand-lg navbar-dark">
-        <a class="navbar-brand" href="">TinDog</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarToggler"
-          aria-controls="navbarToggler"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarToggler">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="">Contact</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">Pricing</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="">Download</a>
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <!-- END NAVBAR -->
+      <div class="container-fluid">
+        <!-- NAVBAR -->
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <a class="navbar-brand" href="">tindog</a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarToggler"
+            aria-controls="navbarToggler"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarToggler">
+            <ul class="navbar-nav ml-auto">
+              <li class="nav-item">
+                <a class="nav-link" href="">Contact</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Pricing</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="">Download</a>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <!-- END NAVBAR -->
 
-      <!-- Title -->
-      <div class="row">
-        <div class="col-lg-6">
-          <h1>Meet new and interesting dogs nearby.</h1>
-          <button type="button">Download</button>
-          <button type="button">Download</button>
-        </div>
-        <div class="col-lg-6">
-          <img src="images/iphone6.png" alt="iphone-mockup" />
+        <div class="row">
+          <div class="col-lg-6">
+            <h1>Meet new and interesting dogs nearby.</h1>
+            <button class="btn btn-lg btn-dark download-button" type="button">
+              <i class="fab fa-apple" aria-hidden="true"></i> Download
+            </button>
+            <button
+              class="btn btn-lg btn-outline-light download-button"
+              type="button"
+            >
+              <i class="fab fa-google-play"></i> Download
+            </button>
+          </div>
+          <div class="col-lg-6">
+            <img
+              class="title-img"
+              src="images/iphone6.png"
+              alt="iphone-mockup"
+            />
+          </div>
         </div>
       </div>
     </section>
+    <!-- END TITLE -->
 
-    <!-- Features -->
+    <!-- FEATURES -->
 
-    <section id="features">
-      <h3>Easy to use.</h3>
-      <p>So easy to use, even your dog could do it.</p>
-
-      <h3>Elite Clientele</h3>
-      <p>We have all the dogs, the greatest dogs.</p>
-
-      <h3>Guaranteed to work.</h3>
-      <p>Find the love of your dog's life or your money back.</p>
+    <section id="features" class="row">
+      <div class="feature-box col-lg-4">
+        <i class="fa fa-check-circle fa-4x feature-icon" aria-hidden="true"></i>
+        <h3 class="feature-title">
+          Easy to use.
+        </h3>
+        <p class="feature-desc">So easy to use, even your dog could do it.</p>
+      </div>
+      <div class="feature-box col-lg-4">
+        <i class="fa fa-bullseye fa-4x feature-icon" aria-hidden="true"></i>
+        <h3 class="feature-title">
+          Elite Clientele
+        </h3>
+        <p class="feature-desc">We have all the dogs, the greatest dogs.</p>
+      </div>
+      <div class="feature-box col-lg-4">
+        <i class="fa fa-heart fa-4x feature-icon" aria-hidden="true"></i>
+        <h3 class="feature-title">
+          Guaranteed to work.
+        </h3>
+        <p class="feature-desc">
+          Find the love of your dog's life or your money back.
+        </p>
+      </div>
     </section>
 
-    <!-- Testimonials -->
+    <!-- TESTIMONIALS -->
 
     <section id="testimonials">
       <h2>
@@ -94,7 +128,7 @@
     <em>Beverly, Illinois</em> -->
     </section>
 
-    <!-- Press -->
+    <!-- PRESS -->
 
     <section id="press">
       <img src="images/techcrunch.png" alt="tc-logo" />
@@ -103,7 +137,7 @@
       <img src="images/mashable.png" alt="mashable-logo" />
     </section>
 
-    <!-- Pricing -->
+    <!-- PRICING -->
 
     <section id="pricing">
       <h2>A Plan for Every Dog's Needs</h2>
@@ -132,7 +166,7 @@
       <button type="button">Sign Up</button>
     </section>
 
-    <!-- Call to Action -->
+    <!-- CALL TO ACTION -->
 
     <section id="cta">
       <h3>Find the True Love of Your Dog's Life Today.</h3>
@@ -140,7 +174,7 @@
       <button type="button">Download</button>
     </section>
 
-    <!-- Footer -->
+    <!-- FOOTER -->
 
     <footer id="footer">
       <p>© Copyright 2018 TinDog</p>
