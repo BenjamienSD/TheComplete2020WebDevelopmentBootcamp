@@ -1,14 +1,11 @@
 body {
   font-family: 'Montserrat', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .container-fluid {
-  padding: 3% 15%;
-}
-
-#title {
-  color: white;
-  background-color: #ff4c68;
+  padding: 3% 5% 12%;
 }
 
 h1 {
@@ -54,22 +51,32 @@ p {
   font-weight: 300;
 }
 
+/* TITLE */
+
+#title {
+  color: #fff;
+  background-color: #ff4c68;
+}
+
+.title-img {
+  width: 50%;
+  transform: rotate(20deg);
+  position: absolute;
+  right: 30%;
+}
+
 /* DOWNLOAD BUTTONS */
 
 .download-button {
   margin: 5% 3% 5% 0%;
 }
 
-/* TITLE IMAGE */
-
-.title-img {
-  width: 60%;
-  transform: rotate(20deg);
-}
-
 /* FEATURES */
 #features {
+  position: relative;
+  width: 100%;
   padding: 7% 5%;
+  background-color: #fff;
 }
 
 .feature-box {
