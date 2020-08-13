@@ -138,3 +138,27 @@ ol.carousel-indicators li.active {
 ol.carousel-indicators li {
   background: rgba(255, 255, 255, 0.61);
 }
+
+/* PRICING */
+
+#pricing {
+  margin: 7% 5%;
+  text-align: center;
+}
+
+.pricing-column {
+  padding: 2%;
+}
+
+/* CALL TO ACTION */
+
+#cta {
+  text-align: center;
+}
+
+/* FOOTER */
+
+#footer {
+  text-align: center;
+  margin: 7%;
+}
