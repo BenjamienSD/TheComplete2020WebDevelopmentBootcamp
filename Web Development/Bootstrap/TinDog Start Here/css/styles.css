@@ -5,7 +5,7 @@ body {
 }
 
 .container-fluid {
-  padding: 3% 5% 12%;
+  padding: 3% 7% 12%;
 }
 
 h1 {
@@ -161,11 +161,47 @@ ol.carousel-indicators li {
 
 #cta {
   text-align: center;
+  padding: 7% 15%;
+  color: #fff;
+  background-color: #ff4c68;
+}
+
+.cta-heading {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  font-size: 3.5rem;
+  line-height: 1.5;
+}
+
+.cta-button {
+  margin: 5% 3%;
 }
 
 /* FOOTER */
 
 #footer {
   text-align: center;
-  margin: 7%;
+  background-color: #fff;
+  padding: 7% 15%;
+}
+
+.footer-icon {
+  margin: 30px 10px;
+}
+
+.footer-icon:hover {
+  cursor: pointer;
+}
+
+/* MEDIA QUERIES */
+
+@media (max-width: 1028px) {
+  .title-img {
+    position: static;
+    transform: rotate(0deg);
+  }
+
+  #title {
+    text-align: center;
+  }
 }
