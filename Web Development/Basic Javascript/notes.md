@@ -19,7 +19,7 @@ alert(
 );
 ```
 
-# Stanford Karel solution
+# Stanford Karel chessboard solution
 
 ```js
 function unEvenRow() {
