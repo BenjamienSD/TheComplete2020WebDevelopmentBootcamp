@@ -107,7 +107,7 @@ console.log(`Got ${change} dollars in change.`);
 
 ## Intermediate JS
 
-# Arrays
+# Arrays, while loops, for loops
 
 ```jsx
 let guestNames = ['Angela', 'Jack', 'Pam', 'James', 'Lara', 'Jason'];
@@ -172,4 +172,22 @@ function neinNein() {
 }
 
 neinNein();
+```
+
+# Fibonacci sequence
+
+```js
+function fibonacciGenerator(n) {
+  if (n === 1) {
+    return [0];
+  } else {
+    let sequence = [0, 1];
+    for (let i = 2; i < n; i++) {
+      sequence.push(sequence[i - 2] + sequence[i - 1]);
+    }
+    return sequence;
+  }
+}
+
+fibonacciGenerator(4);
 ```
