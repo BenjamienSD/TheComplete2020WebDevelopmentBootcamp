@@ -19,7 +19,8 @@ PUT /item/{id}
 
 ### • Paths
 
-If <https://sv443.net/jokeapi/v2/joke/> is the endpoint root, then <https://sv443.net/jokeapi/v2/joke/programming> or <https://sv443.net/jokeapi/v2/joke/misc> are the branches or paths
+If <https://sv443.net/jokeapi/v2/joke/> is the endpoint root,  
+then <https://sv443.net/jokeapi/v2/joke/programming> or <https://sv443.net/jokeapi/v2/joke/misc> are the branches or paths
 
 ### • Parameters
 
@@ -36,8 +37,6 @@ sample api call
 endpoint: <https://samples.openweathermap.org/data/2.5/weather>  
 query: q=London,uk  
 authentication: appid=439d4b804bc8187953eb36d2a8c26a02
-
-<https://api.openweathermap.org/data/2.5/weather?q=Gent,BE&units=metric&appid=apikey>
 
 ### Postman
 
