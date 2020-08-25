@@ -40,4 +40,14 @@ Within a single GET method you can only do 1 res.send()
 
 ```js
 const bodyParser = require('body-parser');
+
+...
+
+app.post('/', (serverRequest, serverResponse) => {
+  const query = serverRequest.body.city;
+  const apiKey = 'd409b3b9c3ab29ade7b28427026fad7e';
+  const units = serverRequest.body.units;
+
+...
+
 ```
