@@ -14,7 +14,7 @@ app.get('/', (serverRequest, serverResponse) => {
 // server POST request, city & units
 app.post('/', (serverRequest, serverResponse) => {
   const query = serverRequest.body.city;
-  const apiKey = 'd409b3b9c3ab29ade7b28427026fad7e';
+  const apiKey = 'apiKey';
   const units = serverRequest.body.units;
 
   // check for unit type
