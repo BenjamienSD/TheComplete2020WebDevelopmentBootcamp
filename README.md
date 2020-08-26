@@ -20,12 +20,12 @@ Collection of all projects made in the bootcamp.
 
 # jQuery
 
-• Dice Game
-• Drum Kit
+• Dice Game  
+• Drum Kit  
 • Simon Says Game
 
 # Node - Express - APIs
 
-• BMI calculator
-• WeatherApp
+• BMI calculator  
+• WeatherApp  
 • Newsletter Signup
