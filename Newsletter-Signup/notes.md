@@ -13,3 +13,27 @@ Then link relative to public
 <link href="css/styles.css" rel="stylesheet" />
 <img class="mb-4" src="images/logo.png" alt="" width="72" height="72" />
 ```
+
+## Deploying to heroku
+
+add Procfile
+
+```procfile
+web: node app.js
+```
+
+deploy
+
+```commandline
+heroku login
+
+heroku create
+
+git init
+
+git add . && git commit -m "preparing for deploy"
+
+heroku git:remote -a <heroku appname>
+
+git push heroku master
+```

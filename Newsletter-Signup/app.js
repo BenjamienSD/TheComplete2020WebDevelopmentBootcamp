@@ -3,13 +3,14 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const https = require('https');
 
-// init app
-const app = express();
-
 // set .env
-require('dotenv').config();
+const dotenv = require('dotenv');
+dotenv.config();
 const url = process.env.url;
 const auth = process.env.auth;
+
+// init app
+const app = express();
 
 // static folder
 app.use(express.static('public'));
