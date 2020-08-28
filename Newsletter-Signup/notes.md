@@ -14,6 +14,17 @@ Then link relative to public
 <img class="mb-4" src="images/logo.png" alt="" width="72" height="72" />
 ```
 
+## Set up environment variables
+
+`npm i dotenv`
+
+```js
+const dotenv = require('dotenv');
+dotenv.config();
+const url = process.env.url; // url='<url>' in .env file or config vars in heroku
+const auth = process.env.auth; // auth='<username:apikey>' in .env file or config vars in heroku
+```
+
 ## Deploying to heroku
 
 add Procfile
