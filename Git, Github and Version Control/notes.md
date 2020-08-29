@@ -226,9 +226,9 @@ get latest remote commit (origin/master)
 `git fetch`  
 
 append feature 1  
-`git rebase origin/master feature1`
+`git rebase origin/master feature1`  
 
-append feature 2
+append feature 2  
 `git rebase feature1 feature2`  
 
 append featere 3  
