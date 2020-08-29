@@ -1,5 +1,7 @@
 # Git, Github and Version Control  
 
+note: C1, C2, etc are placeholders for commit hashes
+
 ## Local repositories  
 
 Initialize git  
@@ -144,6 +146,7 @@ create bugWork branch on location relative to master* (1 up, second branch, 1 up
 
 ## Remote repositories  
 
+### git remote  
 Create repository on Github  
 Then add remote to local repository.  
 `git remote add origin <url.git>`  
@@ -151,13 +154,103 @@ Then add remote to local repository.
 Push local repository to remote repository. The -u option links up the local and remote, origin is name of remote, master is name of branch.  
 `git remote -u origin master`  
 
+### git clone  
 create local copy of remote repo  
 `git clone`  
 creates a new branch in the local repo called: origin/master  
 
+### git fetch  
 download data from remote  
 `git fetch`  
 
+### git pull
 Once you have new commits available locally, you can incorporate them as if they were just normal commits on other branches, using cherry-pick, rebase, merge, etc...    
-download and merge data from remote
-`git pull` = `git fetch && git merge origin/master`
+download and merge data from remote  
+`git pull` = `git fetch && git merge origin/master`  
+
+### git push
+
+note: the behavior of git push with no arguments varies depending on one of git's settings called push.default  
+
+## Diverging history
+
+### Rebase  
+
+Imagine you pull a remote repo and make local commits to it, but in the meantime the remote repo also has commits done to it. You can't push your local commits because your local repo is outdated compared to the remote.  
+First you have to update the local repo to match the state of the remote.  
+
+`git fetch`  
+`git rebase origin/master`
+`git push`
+
+Basically adding all the remote commits to your local repo, adding your commits, and sending those to the remote
+
+### Merge
+
+`git fetch`  
+`git merge origin/master`  
+`git push`  
+
+### git pull --rebase
+
+`git pull` is shorthand for a fetch and a merge.  
+`git pull --rebase` is shorthand for a fetch and a rebase.  
+
+## Remote rejected ( locked master )  
+
+When working on larger project and the master is locked, pull requests are required in order to merge commits.  
+If you commit directly to master locally and try pushing you will be greeted with a message similar to this:  
+`! [remote rejected] master -> master (TF402455: Pushes to this branch are not permitted; you must use a pull request to update this branch.)`  
+
+Instead you must create a branch, push that branch and make a pull request.  
+Also reset your master back to be in sync with the remote otherwise you may have issues next time you do a pull and someone else's commit conflicts with yours.  
+
+Reset your master back to be in sync with the remote  
+`git reset --hard origin/master`  
+
+Checkout latest local commit, create branch  
+`git checkout -b <newBranch> C2`  
+
+Push the new branch on the origin
+`git push origin feature`
+
+## Remote repositories ( advanced )
+
+### Merging feature branches
+
+Some developers only push and pull when on the master branch -- that way master always stays updated to what is on the remote (origin/master).  
+
+### Using rebase
+
+get latest remote commit (origin/master)  
+`git fetch`  
+
+append feature 1  
+`git rebase origin/master feature1`
+
+append feature 2
+`git rebase feature1 feature2`  
+
+append featere 3  
+`git rebase feature2 feature3`  
+
+set local master to lastest local commit  
+`git rebase master feature3`  
+
+push master to remote  
+`git push`  
+
+## Rebase vs Merge  
+
+clean commit tree vs accurate representation of commit history.  
+
+### Using merge  
+
+`git checkout master`  
+`git pull`  
+`git merge feature1`  
+`git merge feature2`  
+`git merge feature3`  
+`git push`  
+
+## Remote tracking  
