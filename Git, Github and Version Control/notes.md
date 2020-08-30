@@ -174,7 +174,7 @@ download and merge data from remote
 
 ### git push
 
-note: the behavior of git push with no arguments varies depending on one of git's settings called push.default
+Note: the behavior of git push with no arguments varies depending on one of git's settings called push.default
 
 ## Diverging history
 
@@ -246,7 +246,7 @@ push master to remote
 
 ## Rebase vs Merge
 
-clean commit tree vs accurate representation of commit history.
+Clean commit tree vs accurate representation of commit history.
 
 ### Using merge
 
@@ -259,7 +259,47 @@ clean commit tree vs accurate representation of commit history.
 
 ## Remote tracking
 
-create new branch that tracks origin/master  
+Create new branch that tracks origin/master  
 `git checkout -b totallyNotMaster origin/master`  
 or  
 `git branch -u o/master foo`
+
+## Push arguments
+
+`git push <destination> <branch>`
+
+Push the commits of the currently checked out branch to the remote master  
+`git push origin master`
+
+## Colon refspec
+
+`git push origin <source>:<destination>`
+
+Checkout commit before foo branch and push to remote master  
+`git push origin foo^:master`
+
+If the branch doesnt exists remotely git will create it
+`git push origin master:newBranch`
+
+## Fetch
+
+Get the commits from the remote foo branch  
+`git fetch origin foo`
+
+It doesn't update your local non-remote branches, it only downloads the commits
+
+`git fetch origin foo~1:bar`
+
+## Odities of source
+
+If you don't specify a source when pushing to a branch, it deletes the branch
+
+Delete the foo branch  
+`git push origin :foo`
+
+If you don't specify a source when fetching, it creates a branch
+
+Create a foo branch  
+`git fetch origin :bar`
+
+## Pull arguments
