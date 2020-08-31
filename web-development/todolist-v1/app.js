@@ -7,19 +7,25 @@ const https = require('https');
 // init app
 const app = express();
 
-// saturday = 6, sunday = 0
-app.get('/', (req, res) => {
-  let weekend = 6 || 0;
-  let today = new Date().getDay();
-  let daysLeft = 6 - today;
+// init ejs
+app.set('view engine', 'ejs');
 
-  if (today === weekend) {
-    res.send("Yay it's the weekend!");
-  } else {
-    res.write('<h1>Back to work you maggot!</h1>');
-    res.write(`${daysLeft} day left to work!`);
-    res.send();
-  }
+app.get('/', (req, res) => {
+  let today = new Date().getDay(); // returns # from 0 to 6
+
+  // using array
+  let week = [
+    'sunday',
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+  ];
+
+  // render the day in the list marker
+  res.render('list', { kindOfDay: week[today] });
 });
 
 // port setup
