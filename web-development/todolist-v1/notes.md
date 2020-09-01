@@ -195,3 +195,50 @@ You can then create any page in the `views` folder and sandwich any content in b
 
 <%- include('footer')-%>
 ```
+
+## Creating node modules
+
+create a new js file in project root, for instance `date.js`
+
+```js
+// date module
+
+// date module
+exports.getDate = function () {
+  let today = new Date();
+  let options = { weekday: 'long', day: 'numeric', month: 'long' };
+  return today.toLocaleDateString("en-US", options);
+}
+
+exports.getDay = function () {
+  let today = new Date();
+  let options = { weekday: 'long' };
+  return today.toLocaleDateString("en-US", options);
+}
+
+```
+
+Then in the main app, require it.
+
+```js
+// local modules require file extension.
+const date = require(__dirname + '/date.js')
+
+// simply call it
+date.getDay();
+date.getDate();
+```
+
+## Refactoring
+
+```js
+// You can manipulate arrays declared as constant but you can not redeclare them
+const array = []
+array.push('a') // ['a']
+array = ['b'] // error
+
+// likewise with objects
+const myObject = {'key': 'value'}
+myObject = {'otherKey': 'otherValue'} // error
+myObject.key = 'otherValue' // {'key': 'otherValue'}
+```

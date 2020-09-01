@@ -1,13 +1,14 @@
 // imports
 const express = require('express');
 const bodyParser = require('body-parser');
+const date = require(__dirname + '/date.js') // local module
 
 // init app
 const app = express();
 
 // variables
-let items = [];
-let workItems = [];
+const items = [];
+const workItems = [];
 
 // init body-parser
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -20,12 +21,11 @@ app.set('view engine', 'ejs');
 
 // list view
 app.get('/', (req, res) => {
-  let today = new Date();
-  let options = { weekday: 'long', day: 'numeric', month: 'long' };
+
 
   // render the day in the list marker
   res.render('list', {
-    listTitle: today.toLocaleDateString('en-US', options),
+    listTitle: date.getDay(),
     newListItems: items,
   });
 });
