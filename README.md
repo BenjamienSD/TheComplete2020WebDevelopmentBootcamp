@@ -4,32 +4,32 @@ https://www.udemy.com/course/the-complete-web-development-bootcamp
 
 Collection of all projects made in the bootcamp.
 
-# HTML
+## HTML
 
 • Personal website (html only)  
 • Personal website (internal CSS)  
 • Personal website (external CSS)
 
-# CSS
+## CSS
 
 • Stylised personal website
 
-# Bootstrap
+## Bootstrap
 
 • TinDog
 
-# jQuery
+## jQuery
 
 • Dice Game  
 • Drum Kit  
 • Simon Says Game
 
-# Node - Express - APIs
+## Node - Express - APIs
 
 • BMI calculator  
 • WeatherApp  
 • Newsletter Signup
 
-# EJS
+## EJS
 
 • Blog
