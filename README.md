@@ -29,3 +29,7 @@ Collection of all projects made in the bootcamp.
 • BMI calculator  
 • WeatherApp  
 • Newsletter Signup
+
+# EJS
+
+• Blog
