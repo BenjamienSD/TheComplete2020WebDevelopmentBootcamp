@@ -78,3 +78,14 @@ If you have another collection you can reference other collections
 The driver allows the interaction between the database and the application.
 
 ODM: Object Document Mapper (mongoose)
+
+### Native Driver
+
+```terminal
+mkdir myProject
+cd myProject
+npm init -y
+npm i mongodb
+```
+
+MongoDB notes continued in FruitsProject.
