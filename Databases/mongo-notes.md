@@ -88,4 +88,11 @@ npm init -y
 npm i mongodb
 ```
 
+### Remove the entire database
+
+In mongoshell.
+
+`use fruitsDB`
+`db.dropDatabase()`
+
 MongoDB notes continued in FruitsProject.
