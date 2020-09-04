@@ -1,73 +1,127 @@
-const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert'); // Does testing
+// import
+const mongoose = require('mongoose');
 
-// Connection URL
-const url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'fruitsDB';
-
-// CREATE
-// Create a new MongoClient
-const client = new MongoClient(url, { useUnifiedTopology: true });
-
-// Use connect method to connect to the Server
-client.connect((err) => {
-  assert.equal(null, err);
-  console.log('Connected successfully to server');
-
-  const db = client.db(dbName);
-
-  findDocuments(db, () => {
-    client.close();
-  });
+// connect to database
+mongoose.connect('mongodb://localhost:27017/fruitsDB', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-// ADD
-const insertDocuments = (db, callback) => {
-  // get the fruits collection (or create it if it doesn't exist)
-  const collection = db.collection('fruts');
-  // insert documents
-  collection.insertMany(
-    [
-      {
-        name: 'Apple',
-        score: 8,
-        review: 'Great fruit',
-      },
-      {
-        name: 'Orange',
-        score: 6,
-        review: 'Kinda sour',
-      },
-      {
-        name: 'Banana',
-        score: 9,
-        review: 'Great stuff',
-      },
-    ],
-    (err, result) => {
-      // assert there are no errors
-      assert.equal(err, null);
-      // assert that there are 3 results
-      assert.equal(3, result.result.n);
-      assert.equal(3, result.ops.length);
-      console.log('Inserted 3 documents in the collection');
-      callback(result);
-    }
-  );
-};
+// Schema: blueprint for how the data is structured
+const fruitSchema = new mongoose.Schema({
+  name: String,
+  score: Number,
+  review: String,
+});
 
-// READ
+// model (create new collection)
+const Fruit = mongoose.model('Fruit', fruitSchema);
 
-const findDocuments = (db, callback) => {
-  // get the collection
-  const collection = db.collection('documents');
-  // find some documents
-  collection.find({}).toArray((err, fruits) => {
-    assert.equal(err, null);
-    console.log('Found the following fruits');
+// new fruit document
+const fruit = new Fruit({
+  name: 'Apple',
+  rating: 7,
+  review: 'solid',
+});
+
+// add document to collection
+// fruit.save();
+
+//* Challenge
+//* Create a people collection
+//* person schema (name, age), person model, person document (John, 37), save person
+/*
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+});
+*/
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  age: Number,
+  favouriteFruit: fruitSchema,
+});
+
+const Person = mongoose.model('Person', personSchema);
+
+const person = new Person({
+  name: 'John',
+  age: 31,
+});
+
+const pineapple = new Fruit({
+  name: 'Pineapple',
+  score: 10,
+  review: 'Excellent',
+});
+
+pineapple.save();
+
+Person.updateOne({ name: 'John' }, { favouriteFruit: pineapple }, (err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('Favourite fruit added.');
+  }
+});
+
+Person.findOne({ name: 'John' }, (err, person) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log(person.favouriteFruit);
+  }
+});
+// person.save();
+
+const kiwi = new Fruit({
+  name: 'Kiwi',
+  rating: 10,
+  review: 'Excellent',
+});
+const banana = new Fruit({
+  name: 'Banana',
+  rating: 9,
+  review: 'Great',
+});
+const grapes = new Fruit({
+  name: 'Grapes',
+  rating: 8,
+  review: 'Good',
+});
+
+/*
+Fruit.insertMany([kiwi, banana, grapes], function (err) {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log('Successfuly saved all the fruits to fruitsDB');
+  }
+});
+*/
+
+/*
+// console.log all fruits
+Fruit.find(function (err, fruits) {
+  if (err) {
+    console.log(err);
+  } else {
     console.log(fruits);
-    callback(fruits);
-  });
-};
+  }
+});
+*/
+
+/*
+// console.log the names of the fruits
+Fruit.find(function (err, fruits) {
+  if (err) {
+    console.log(err);
+  } else {
+    fruits.forEach((fruit) => {
+      console.log(fruit.name);
+    });
+    mongoose.connection.close();
+  }
+});
+*/
