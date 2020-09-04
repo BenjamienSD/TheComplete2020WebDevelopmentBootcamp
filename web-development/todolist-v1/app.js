@@ -1,7 +1,7 @@
 // imports
 const express = require('express');
 const bodyParser = require('body-parser');
-const date = require(__dirname + '/date.js') // local module
+const date = require(__dirname + '/date.js'); // local module
 
 // init app
 const app = express();
@@ -21,8 +21,6 @@ app.set('view engine', 'ejs');
 
 // list view
 app.get('/', (req, res) => {
-
-
   // render the day in the list marker
   res.render('list', {
     listTitle: date.getDay(),
