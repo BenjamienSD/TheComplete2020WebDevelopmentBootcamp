@@ -57,7 +57,7 @@ HEAD -> master -> C1
 `git checkout C1`  
 HEAD -> C1
 
-## Relative refs ( ^ moving HEAD relative to <name> )
+## Relative refs ( ^ moving HEAD relative to \<name> )
 
 parent of master  
 `master^`
