@@ -68,5 +68,3 @@ Specify version of node in package.json
 `git add .`  
 `git commit -m "config"`  
 `git push heroku master`  
-
-
