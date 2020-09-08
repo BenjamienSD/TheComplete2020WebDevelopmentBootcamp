@@ -1,0 +1,26 @@
+<%- include('partials/header') %>
+
+<% postItems.forEach((post, i) => { %>
+<div class="post">
+
+  <div class="postIndex">
+    <small class="text-muted .text-right">#<%=i+1%></small>
+  </div>
+  <div class="heading">
+    <h1><%=post.title%> </h1>
+  </div>
+
+  <div class="date">
+    <small class="text-muted d-block"><%=post.day%></small>
+    <small class="text-muted"><%=post.date%></small>
+  </div>
+
+  <div class="content">
+    <p><%=post.content.substring(0, 250)%> ... </p>
+    <a href="posts/<%=post.title%>"><small class="text-muted continue">Continue</small></a>
+  </div>
+
+</div>
+<% }) %>
+
+<%- include('partials/footer') %>
