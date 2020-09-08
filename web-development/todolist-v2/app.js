@@ -1,8 +1,14 @@
+// TODO
+//* display list index on home page
+//* create new list button on home page
+//* delete lists
+
 // imports
 const express = require('express');
 const mongoose = require('mongoose');
+mongoose.set('useFindAndModify', false);
 const bodyParser = require('body-parser');
-// const date = require(__dirname + '/date.js'); // local module
+const _ = require('lodash')
 
 // init app
 const app = express();
@@ -53,10 +59,10 @@ const item3 = new Item({
 // placeholder list
 const placeholderItems = [item1, item2, item3];
 
-// listOfLists
+// HOME
+///////
+// list view
 app.get('/', (req, res) => {
-  // list view
-
   // get all the list items
   Item.find((err, items) => {
     // error handling
@@ -83,25 +89,23 @@ app.get('/', (req, res) => {
   });
 });
 
-/* // work list view
-app.get('/work', (req, res) => {
-  res.render('list', { listTitle: 'Work List', newListItems: workItems });
-}); */
-
-// create custom list
+// CUSTOM LIST
+//////////////
 app.get('/:listName', (req, res) => {
-  const listName = req.params.listName;
+  // get listname from routing params
+  const listName = _.capitalize(req.params.listName);
+  // search the lists collection to see if list already exists
   List.findOne({ name: listName }, (err, list) => {
     if (err) {
       console.log(err);
+      // if list exists, render the list
     } else if (list) {
-      console.log('exists');
       res.render('list', {
         listTitle: list.name,
         newListItems: list.items,
       });
+      // else create new list, then render
     } else {
-      console.log(`doesn't exist`);
       const list = new List({
         name: listName,
         items: placeholderItems,
@@ -115,42 +119,72 @@ app.get('/:listName', (req, res) => {
   });
 });
 
-// about view
+// ABOUT
+////////
 app.get('/about', (req, res) => {
   res.render('about');
 });
 
-// get item from input
-// add to appropriate list, and redirect to appropriate page
-// req.body.list captures the first word from listTitle, in this case either 'Work' or the day
+// POST
+///////
 app.post('/', (req, res) => {
+  // get new itemname and current listname
+  const itemName = req.body.newItem; // newItem is the name of the input
+  const listName = req.body.list; // list is the name of the button
+  // create new item
   let item = new Item({
-    name: req.body.newItem,
+    name: itemName,
   });
-
+  // if blank, do nothing
   if (item.name === '') {
     console.log('nothing entered');
     res.redirect('/');
-  } else if (req.body.list === 'Work') {
-    workItems.push(item);
-    res.redirect('/work');
-  } else {
+    // if today, add to 'items' collection
+  } else if (listName === 'Today') {
+    console.log(`${item.name} added to Today`);
     item.save();
     res.redirect('/');
+    // else seach the 'lists' collection for the current listname and add to that list
+  } else {
+    List.findOne({ name: listName }, (err, list) => {
+      if (err) {
+        console.log(err);
+      } else {
+        list.items.push(item);
+        list.save();
+        res.redirect(`/${listName}`);
+        console.log(`${item.name} added to ${listName} list`);
+      }
+    });
   }
 });
 
+// DELETE
+/////////
 // delete items
 app.post('/delete', (req, res) => {
   const itemId = req.body.checkbox;
-  Item.findByIdAndRemove(itemId, (err, item) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log(`${item.name} deleted`);
-      res.redirect('/');
-    }
-  });
+  const listName = req.body.listName
+
+  if (listName === "Today") {
+    Item.findByIdAndRemove(itemId, (err, item) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`${item.name} deleted`);
+        res.redirect('/');
+      }
+    });
+  } else {
+    List.findOneAndUpdate({ name: listName }, { $pull: { items: { _id: itemId } } }, (err) => {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(`item removed from ${listName} list`)
+        res.redirect(`/${listName}`)
+      }
+    })
+  }
 });
 
 // port setup
