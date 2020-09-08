@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 const bodyParser = require('body-parser');
 const _ = require('lodash')
+require('dotenv').config()
+const url = process.env.mongoURI
 
 // init app
 const app = express();
@@ -23,7 +25,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // create database
-mongoose.connect('mongodb://localhost:27017/todoListDB', {
+mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -188,7 +190,10 @@ app.post('/delete', (req, res) => {
 });
 
 // port setup
-const port = 3000 || process.env.PORT;
-app.listen(port, () => {
-  console.log(`Server running on ${port}`);
+let PORT = process.env.PORT;
+if (PORT === null || PORT === "") {
+  PORT = 3000
+}
+app.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
 });
