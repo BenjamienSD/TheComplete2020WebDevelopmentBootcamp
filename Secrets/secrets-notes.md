@@ -1,38 +1,17 @@
-// imports
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-require('dotenv').config();
+# Authentication and Security
 
-// init app
-const app = express();
+• level 1: Register users with username and password
+• level 2: Database encryption
+• level 3: Hashing passwords
+• level 4: Salting and hashing passwords with bcrypt
+• level 5: Using Passport.js to add cookies and sessions
+• level 6: OAuth 2.0 & Google sign in
 
-app.set('view engine', 'ejs')
+## Level 1
 
-// body parser & static folder
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public'));
+This is just to demonstrate how to add and search for users in the database. As it stores the passwords in plain text this is for demonstration purposes only.
 
-// connect DB
-mongoose.connect(process.env.mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
-
-// schema
-const userSchema = new mongoose.Schema({
-  email: String,
-  password: String
-})
-
-// model
-const User = new mongoose.model('User', userSchema)
-
-// HOME
-app.get('/', (req, res) => {
-  res.render('home')
-})
-
+```js
 // LOGIN
 app.route('/login')
   .get((req, res) => {
@@ -81,9 +60,4 @@ app.route('/register')
     })
   })
 
-// port config
-const PORT = process.env.PORT;
-app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
-});
-
+```
