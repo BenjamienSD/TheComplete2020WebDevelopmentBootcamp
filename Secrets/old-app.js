@@ -3,9 +3,8 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const session = require('express-session')
-const passport = require('passport')
-const passportLocalMongoose = require('passport-local-mongoose')
+const bcrypt = require('bcrypt')
+const saltRounds = 10
 
 // init app
 const app = express();
@@ -16,21 +15,10 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
-// session config
-app.use(session({
-  secret: process.env.SECRET,
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-app.use(passport.session())
-
 // connect DB
 mongoose.connect(process.env.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex: true
 });
 
 
@@ -41,8 +29,6 @@ const userSchema = new mongoose.Schema({
   password: String,
 });
 
-userSchema.plugin(passportLocalMongoose)
-
 // secret
 const secretSchema = new mongoose.Schema({
   secret: String,
@@ -51,10 +37,6 @@ const secretSchema = new mongoose.Schema({
 // models
 // user
 const User = new mongoose.model('User', userSchema);
-
-passport.use(User.createStrategy());
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
 
 // secret
 const Secret = new mongoose.model('Secret', secretSchema);
@@ -71,6 +53,19 @@ app
     res.render('login');
   })
   .post((req, res) => {
+    User.findOne({ email: req.body.username }, (err, user) => {
+      if (err) {
+        res.send(err);
+      } else if (user) {
+        bcrypt.compare(req.body.password, user.password, (err, match) => {
+          if (match === true) {
+            res.render('secrets');
+          }
+        })
+      } else {
+        res.redirect('/login');
+      }
+    });
   });
 
 // REGISTER
@@ -80,6 +75,29 @@ app
     res.render('register');
   })
   .post((req, res) => {
+    bcrypt.hash(req.body.password, saltRounds, (err, hash) => {
+      const newUser = new User({
+        email: req.body.username,
+        password: hash
+      });
+      User.findOne({ email: req.body.username }, (err, user) => {
+        if (err) {
+          console.log(err);
+        } else if (!user) {
+          newUser.save((err) => {
+            if (err) {
+              res.send(err);
+            } else {
+              //res.send('User successfully added')
+              res.render('secrets');
+            }
+          });
+        } else if (user.email === newUser.email) {
+          //res.send('This user already exists')
+          res.redirect('/register');
+        }
+      });
+    })
   });
 
 // SUBMIT
