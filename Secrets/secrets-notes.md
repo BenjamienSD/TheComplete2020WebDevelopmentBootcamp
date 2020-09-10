@@ -71,3 +71,33 @@ app.route('/register')
 <https://www.npmjs.com/package/mongoose-encryption>
 
 `npm i mongoose-encryption`
+
+You can add functionality to mongoose schemas with plugins like mongoose-encryption.  
+During `save()` documents are encrypted, during `find()` they are decrypted.  
+`find` works transparently (though you cannot query fields that are encrypted).  
+In this case, instead of using 2 keys (encryption & signing) we will use a single secret string.  
+
+You have to add the encrypt plugin to the schema before you create the model, that way when you reference the schema parameter in the model, encrypt is included.
+
+We store the secret in the `.env` file in the project root directory. Make sure to add `.env` to `.gitignore` to make sure it is not added to version control (we've all done it).  
+
+```env
+SECRET=somestring
+```
+
+```js
+const userSchema = new mongoose.Schema({
+  email: String,
+  password: String,
+});
+
+userSchema.plugin(encrypt, { secret: process.env.SECRET });
+
+const User = new mongoose.model('User', userSchema);
+```
+
+Doing it like this encrypts the entire database, in orde to be able to search for email or usernames, you have to exclude to fields using options.  
+
+```js
+userSchema.plugin(encrypt, { secret: secret, encryptedFields: ['password'] });
+```
