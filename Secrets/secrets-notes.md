@@ -7,7 +7,9 @@
 • level 5: Using Passport.js to add cookies and sessions
 • level 6: OAuth 2.0 & Google sign in
 
-## Level 1
+## LEVEL 1
+
+### Register users with username and password
 
 This is just to demonstrate how to add and search for users in the database. As it stores the passwords in plain text this is for demonstration purposes only.
 
@@ -61,3 +63,11 @@ app.route('/register')
   })
 
 ```
+
+## LEVEL 2
+
+### Database encryption
+
+<https://www.npmjs.com/package/mongoose-encryption>
+
+`npm i mongoose-encryption`

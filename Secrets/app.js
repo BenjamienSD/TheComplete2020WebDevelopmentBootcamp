@@ -2,6 +2,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const encrypt = require('mongoose-encryption')
 require('dotenv').config();
 
 // init app
