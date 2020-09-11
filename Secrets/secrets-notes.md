@@ -259,6 +259,8 @@ app
 
 ### Cookies and Sessions using Passport.js
 
+#### Setup and config
+
 `npm i passport passport-local passport-local-mongoose express-session`  
 
 First we get the app to use the session package, then we configure the session with `app.use(session())`.  
@@ -319,3 +321,168 @@ passport.deserializeUser(User.deserializeUser());
 - (de)serializeUser: used by sessions to write the user's identification in the session cookie (serialize) and to read the identification (deserialize).  
 
 If you get the warning: `DeprecationWarning: collection.ensureIndex is deprecated. Use createIndexes instead.` make sure to include `{ useCreateIndex: true }` in `mongoose.connect()`
+
+#### Registering a user
+
+The `.register()` and `.authenticate()` methods come from the `passport-local-mongoose` package.  
+`res.redirect('/secrets')` only happens when `passport.authenticate()` passes.
+`"local"` indicates the type of authentication.
+
+```js
+User.register({username}, password, callback())
+```
+
+```js
+passport.authenticate("type")(callback())
+```
+
+```js
+// REGISTER
+app
+  .route('/register')
+  .get((req, res) => {
+    res.render('register');
+  })
+  .post((req, res) => {
+    User.register({ username: req.body.username }, req.body.password, (err, user) => {
+      if (err) {
+        console.log(err);
+        res.redirect('/register')
+      } else {
+        console.log('user registered');
+        passport.authenticate("local")(req, res, () => {
+          console.log('user authenticated');
+          res.redirect('/secrets')
+        }
+        )
+      }
+    })
+  });
+```
+
+Note: I changed `email` to `username` because the passport-local-mongoose username field defaults to username. You could use a plugin to change that if you wanted to.
+
+```js
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+});
+```
+
+From the docs:  
+`User.plugin(passportLocalMongoose, options);`
+usernameField: specifies the field name that holds the username. Defaults to 'username'. This option can be used if you want to use a different field to hold the username for example "email".  
+<https://github.com/saintedlama/passport-local-mongoose#options>
+
+
+
+Before this we didn't have a secrets route, we just rendered the secrets page when the user was registered or logged in. Now that we do redirect we need to create the route.  
+In this route we have to do authentication to make sure that the user should be allowed access to the route.
+
+```js
+// SECRETS
+app.get('/secrets', (req, res) => {
+  if (req.isAuthenticated()) {
+    res.render('secrets')
+  } else {
+    res.redirect('/login')
+  }
+})
+```
+
+#### Logging in a user
+
+```js
+// LOGIN
+app
+  .route('/login')
+  .get((req, res) => {
+    res.render('login');
+  })
+  .post((req, res) => {
+    const user = new User({
+      username: req.body.username,
+      password: req.body.password
+    })
+    req.login(user, err => {
+      if (err) {
+        console.log(err.message);
+      } else {
+        passport.authenticate('local')(req, res, () => {
+          res.redirect('/secrets')
+        })
+      }
+    })
+  });
+```
+
+#### Logging out a user
+
+```js
+// LOGOUT
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
+})
+```
+
+## LEVEL 6
+
+### OAuth 2.0 & Google sign in
+
+OAuth: Open Authorization.  
+An open standard for token based authorization.  
+
+This basically allows you to delegate the task of securing a users login information to a third party, like Google of Facebook.  
+When a user wants to register on our website, we can ask if they want to register using Google. We then send Google a request to authenticate the user for us.
+
+OAuth:
+
+- granular access
+- Read / Read+Write access
+- Revoke access
+
+`npm install passport-google-oauth20`
+
+#### Consent screen
+
+We now have to register the application with Google on <https://console.developers.google.com>  
+Create a new project, in this case it is named `Secret`. Then we go to login credentials and configure the consent screen.  
+Set it to `external` so the application is available to anyone with a Google account.
+
+#### API Credentials
+
+Navigate to APIs & Services > Credentials and create credentials.  
+Here we choose to create a OAuth client ID. Set the Application type to web application, the name is Secrets.  
+
+For now we set the authorised JavaScript origins to `http://localhost:3000`
+The authorized redirect URI is `http://localhost:3000/auth/google/secrets`  
+
+When you create the credentials you will receive a client ID and a client Secret, put this in the `.env` file.
+
+#### Implementation
+
+We include the `userProfileURL` in the strategy options to direct where to get the user info from.  
+`.findOrCreate()` isn't actually a mongoose method. It is pseudo placeholder code provided by the documentation.  
+There is however a npm package `mongoose-findorcreate` which actually makes it work.
+
+```js
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+userSchema.plugin(findOrCreate);
+
+// put this below (de)serialize user
+passport.use(new GoogleStrategy({
+    clientID: process.env.CLIENT_ID,
+    clientSecret: process.env.CLIENT_SECRET,
+    callbackURL: process.env.CALLBACK_URL,
+    userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    User.findOrCreate({ googleId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });
+  }
+));
+```
+

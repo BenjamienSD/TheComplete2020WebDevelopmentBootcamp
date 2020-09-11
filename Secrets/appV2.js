@@ -5,9 +5,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const passport = require('passport');
-const findOrCreate = require('mongoose-findorcreate')
 const passportLocalMongoose = require('passport-local-mongoose');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 // init app
 const app = express();
@@ -25,7 +23,6 @@ app.use(session({
   saveUninitialized: false
 }));
 
-// init passport & session
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -36,54 +33,38 @@ mongoose.connect(process.env.MONGO_URI, {
   useCreateIndex: true
 });
 
-// SCHEMAS
+
+// schemas
 // user
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
 });
 
-// plugins
 userSchema.plugin(passportLocalMongoose);
-userSchema.plugin(findOrCreate);
 
 // secret
 const secretSchema = new mongoose.Schema({
   secret: String,
 });
 
-// MODELS
+// models
 // user
 const User = new mongoose.model('User', userSchema);
 
-// secret
-const Secret = new mongoose.model('Secret', secretSchema);
-
-// passport
 passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-passport.use(new GoogleStrategy({
-  clientID: process.env.CLIENT_ID,
-  clientSecret: process.env.CLIENT_SECRET,
-  callbackURL: process.env.CALLBACK_URL,
-  userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
-},
-  function (accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
-  }
-));
+// secret
+const Secret = new mongoose.model('Secret', secretSchema);
 
-// ROUTES
-// home
+// HOME
 app.get('/', (req, res) => {
   res.render('home');
 });
 
-// register
+// REGISTER
 app
   .route('/register')
   .get((req, res) => {
@@ -105,7 +86,7 @@ app
     })
   });
 
-// login
+// LOGIN
 app
   .route('/login')
   .get((req, res) => {
@@ -127,7 +108,7 @@ app
     })
   });
 
-// secrets
+// SECRETS
 app.get('/secrets', (req, res) => {
   if (req.isAuthenticated()) {
     res.render('secrets')
@@ -136,7 +117,7 @@ app.get('/secrets', (req, res) => {
   }
 })
 
-// submit
+// SUBMIT
 app.post('/submit', (req) => {
   const newSecret = new Secret({
     secret: req.body.secret,
@@ -150,13 +131,12 @@ app.post('/submit', (req) => {
   });
 });
 
-// logout
+// LOGOUT
 app.get('/logout', (req, res) => {
   req.logout();
   res.redirect('/')
 })
 
-// PORT
 // port config
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
