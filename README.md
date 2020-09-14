@@ -28,18 +28,18 @@ Collection of all projects made in the bootcamp.
 
 • BMI calculator  
 • WeatherApp  
-• Newsletter Signup
-• Wiki-API
-• Todo list v1
+• Newsletter Signup  
+• Wiki-API  
+• Todo list v1  
 
 ## EJS - MongoDB - Mongoose
 
-• Blog
-• Todo list v2
+• Blog  
+• Todo list v2  
 
 ## bcrypt - Passport.js - Sessions - OAuth
 
-• Secrets (simple Whisper clone)
+• Secrets (simple Whisper clone)  
 
 ## React
 
