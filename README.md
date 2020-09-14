@@ -1,6 +1,6 @@
 # The Complete 2020 Web Development Bootcamp
 
-https://www.udemy.com/course/the-complete-web-development-bootcamp
+<https://www.udemy.com/course/the-complete-web-development-bootcamp>
 
 Collection of all projects made in the bootcamp.
 
@@ -43,4 +43,10 @@ Collection of all projects made in the bootcamp.
 
 ## React
 
-...
+coming up:
+
+• Registration screen  
+• Clock  
+• Emoji dictionary  
+• Todo list  
+• Keeper (Google Keep clone)
