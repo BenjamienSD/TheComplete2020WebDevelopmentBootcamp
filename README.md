@@ -18,7 +18,7 @@ Collection of all projects made in the bootcamp.
 
 • TinDog
 
-## jQuery
+## JavaScript - jQuery
 
 • Dice Game  
 • Drum Kit  
@@ -29,7 +29,18 @@ Collection of all projects made in the bootcamp.
 • BMI calculator  
 • WeatherApp  
 • Newsletter Signup
+• Wiki-API
+• Todo list v1
 
-## EJS
+## EJS - MongoDB - Mongoose
 
 • Blog
+• Todo list v2
+
+## bcrypt - Passport.js - Sessions - OAuth
+
+• Secrets (simple Whisper clone)
+
+## React
+
+...
