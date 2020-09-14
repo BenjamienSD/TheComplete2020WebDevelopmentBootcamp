@@ -149,7 +149,7 @@ Simple hash table construction:
 
 Consumer level hardware easily generates upwards of 20 000 000 000 md5 hashes in a matter of seconds
 
-<password-checker.online-domain-tools.com>
+<http://password-checker.online-domain-tools.com>
 
 The difficulty to crack a password increases exponentially with each character added.
 
@@ -189,7 +189,7 @@ On a 2GHz core:
 |25|0.00027|
 |31|0.0000057 (2 - 3 days per hash)|
 
-### installing and using bcrypt
+### Installing and using bcrypt
 
 `npm i bcrypt`  
 
@@ -293,6 +293,7 @@ app.use(passport.session());
 mongoose.connect(process.env.mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true
 });
 
 // schemas
@@ -373,8 +374,6 @@ From the docs:
 `User.plugin(passportLocalMongoose, options);`
 usernameField: specifies the field name that holds the username. Defaults to 'username'. This option can be used if you want to use a different field to hold the username for example "email".  
 <https://github.com/saintedlama/passport-local-mongoose#options>
-
-
 
 Before this we didn't have a secrets route, we just rendered the secrets page when the user was registered or logged in. Now that we do redirect we need to create the route.  
 In this route we have to do authentication to make sure that the user should be allowed access to the route.
@@ -462,6 +461,8 @@ When you create the credentials you will receive a client ID and a client Secret
 
 #### Implementation
 
+<https://github.com/jaredhanson/passport-google-oauth2>
+
 We include the `userProfileURL` in the strategy options to direct where to get the user info from.  
 `.findOrCreate()` isn't actually a mongoose method. It is pseudo placeholder code provided by the documentation.  
 There is however a npm package `mongoose-findorcreate` which actually makes it work.
@@ -473,11 +474,13 @@ userSchema.plugin(findOrCreate);
 
 // put this below (de)serialize user
 passport.use(new GoogleStrategy({
+  // options
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
     callbackURL: process.env.CALLBACK_URL,
     userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
   },
+  // verify callback
   function(accessToken, refreshToken, profile, cb) {
     User.findOrCreate({ googleId: profile.id }, function (err, user) {
       return cb(err, user);
@@ -486,3 +489,203 @@ passport.use(new GoogleStrategy({
 ));
 ```
 
+TODO: figure out what `cb` is.
+
+#### Connecting the front end
+
+Sign in/up button
+
+```html
+    <div class="col-sm-4">
+      <div class="card">
+        <div class="card-body">
+          <a class="btn btn-block" href="/auth/google" role="button">
+            <i class="fab fa-google"></i>
+            Sign Up with Google
+          </a>
+        </div>
+      </div>
+    </div>
+```
+
+Create the `/auth/google` route
+Here we are saying to use passport to authenticate the user using the `google` strategy, and asking to get the user's profile.  
+
+```js
+// google
+app.get('/auth/google',
+  passport.authenticate('google', { scope: ['profile'] })
+)
+```
+
+Then we set up the authorised redirect url
+
+```js
+// google redirect route
+app.get('/auth/google/secrets',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/secrets')
+  }
+)
+```
+
+The following only works for a local strategy  
+
+```js
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+```
+
+In order to get it to work with all strategies it has to be amended.  
+
+```js
+passport.serializeUser((user, done) => {
+  done(null, user.id)
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user)
+  })
+});
+```
+
+At the moment our users only have 2 fields, username and password. In order to associate their user id on our database with their Google sign in id we have to add another field.
+
+```js
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  googleId: String,
+});
+```
+
+#### Styling the social buttons
+
+<https://lipis.github.io/bootstrap-social/>
+
+Just download and add the `bootstrap-social.css` to your css folder.  
+
+<https://developers.google.com/identity/sign-in/web/sign-in> also provides a way to automatically render a sign in button.  
+
+#### Letting the user to submit secrets
+
+Amend the user schema to include a secret
+
+```js
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  googleId: String,
+  secret: String
+});
+```
+
+Submit funtionality
+
+```js
+
+// submit
+app.route('/submit')
+  .get((req, res) => {
+    if (req.isAuthenticated()) {
+      res.render('submit')
+    } else {
+      res.redirect('/login')
+    }
+  })
+  .post((req, res) => {
+    const newSecret = req.body.secret;
+    // find the user that submitted the secret
+    User.findById(req.user.id, (err, user) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (user) {
+          user.secret = newSecret
+          user.save(err => {
+            if (!err) {
+              res.redirect('/secrets')
+            }
+          });
+        }
+      }
+    });
+  });
+```
+
+Now when someone gets access to the secrets page it displays the secrets submitted by all users
+
+```js
+// secrets
+app.get('/secrets', (req, res) => {
+  User.find({ 'secret': { $ne: null } })
+})
+```
+
+This is what was done in the course, however this allows the user only 1 secret, so I changed it to an array of secrets.  
+I might add the functionality to delete secrets later, once I'm done with the course.
+
+```js
+// user schema
+const userSchema = new mongoose.Schema({
+  username: String,
+  password: String,
+  googleId: String,
+  secrets: Array
+});
+
+// secrets
+app.get('/secrets', (req, res) => {
+  User.find({ 'secrets': { $exists: true, $ne: [] } }, (err, users) => {
+    if (err) {
+      console.log(err);
+    } else {
+      const userSecrets = []
+      users.forEach(user => {
+        user.secrets.forEach(secret => {
+          userSecrets.push(secret)
+        })
+      })
+      res.render('secrets', { secrets: userSecrets })
+    }
+  });
+});
+
+// submit
+app.route('/submit')
+  .get((req, res) => {
+    if (req.isAuthenticated()) {
+      res.render('submit')
+    } else {
+      res.redirect('/login')
+    }
+  })
+  .post((req, res) => {
+    const newSecret = req.body.secret;
+    // find the user that submitted the secret
+    User.findById(req.user.id, (err, user) => {
+      if (err) {
+        console.log(err)
+      } else {
+        if (user) {
+          user.secrets.push(newSecret)
+          user.save(err => {
+            if (!err) {
+              res.redirect('/secrets')
+            }
+          });
+        }
+      }
+    });
+  });
+```
+
+Then in the secrets view.  
+
+```html
+    <% secrets.forEach(secret => { %>
+    <p class="secret-text"><%=secret%></p>
+    <% }) %>
+```

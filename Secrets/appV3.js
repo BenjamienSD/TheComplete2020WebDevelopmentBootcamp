@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
   username: String,
   password: String,
   googleId: String,
-  secrets: Array
+  secret: String
 });
 
 // plugins
@@ -152,17 +152,11 @@ app
 
 // secrets
 app.get('/secrets', (req, res) => {
-  User.find({ 'secrets': { $exists: true, $ne: [] } }, (err, users) => {
+  User.find({ 'secret': { $ne: null } }, (err, users) => {
     if (err) {
       console.log(err);
     } else {
-      const userSecrets = []
-      users.forEach(user => {
-        user.secrets.forEach(secret => {
-          userSecrets.push(secret)
-        })
-      })
-      res.render('secrets', { secrets: userSecrets })
+      res.render('secrets', { usersWithSecrets: users })
     }
   });
 });
@@ -184,7 +178,7 @@ app.route('/submit')
         console.log(err)
       } else {
         if (user) {
-          user.secrets.push(newSecret)
+          user.secret = newSecret
           user.save(err => {
             if (!err) {
               res.redirect('/secrets')
@@ -194,11 +188,6 @@ app.route('/submit')
       }
     });
   });
-
-// delete secrets
-app.get('/delete', (req, res) => {
-  // TODO
-})
 
 // logout
 app.get('/logout', (req, res) => {
