@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "start": "parcel public/index.html --no-cache",
-    "build": "parcel build public/index.html"
+    "build": "parcel public/build index.html"
   },
   "license": "MIT",
   "dependencies": {
