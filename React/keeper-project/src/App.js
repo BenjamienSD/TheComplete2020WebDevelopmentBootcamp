@@ -15,13 +15,13 @@
 import React from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Note from "./components/Note";
+import Notes from "./components/Notes";
 
 const App = () => {
   return (
     <div>
       <Header />
-      <Note />
+      <Notes />
       <Footer />
     </div>
   )
