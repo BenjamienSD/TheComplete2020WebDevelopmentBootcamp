@@ -247,3 +247,139 @@ return (
   </div>
 );
 ```
+
+## Destructuring
+
+When destructuring an array you can use any name.  
+
+```js
+const animals = [
+  {
+    name: "cat",
+    sound: "mew"
+  },
+  {
+    name: "dog",
+    sound: "bork"
+  }
+]
+
+const [c, d] = animals
+
+console.log(c) // {name: "cat", sound: "mew"}
+
+```
+
+When destructuring an object you have to use the name of the key.  
+
+```js
+const animals = {
+  {
+    name: "cat",
+    sound: "mew",
+    feedingRequirements: {
+      food: 2,
+      water: 3
+    }
+  },
+  {
+    name: "dog",
+    sound: "bork"
+  }
+}
+
+const { cat, dog } = animals
+console.log(cat) // {name: "cat", sound: "mew"}
+
+```
+
+Renaming destructured items.  
+
+```js
+const { name: catName, sound: catSound } = cat
+console.log(name) // undefined
+console.log(catName) // "cat"
+```
+
+You can assign a value to undefined keys.  
+
+```js
+const bird = {
+  sound: "quack"
+}
+
+const { name = "chicken" } = bird
+console.log(bird.name) // "chicken"
+```
+
+Destructuring nested objects.
+
+```js
+const {name, sound, feedingRequirements: { food, water }} = cat
+console.log(food) // 2
+```
+
+Example:
+
+```js
+// 
+import React from "react";
+import ReactDOM from "react-dom";
+
+const cars = [
+  {
+    model: "Honda Civic",
+    //The top colour refers to the first item in the array below:
+    //i.e. hondaTopColour = "black"
+    coloursByPopularity: ["black", "silver"],
+    speedStats: {
+      topSpeed: 140,
+      zeroToSixty: 8.5
+    }
+  },
+  {
+    model: "Tesla Model 3",
+    coloursByPopularity: ["red", "white"],
+    speedStats: {
+      topSpeed: 150,
+      zeroToSixty: 3.2
+    }
+  }
+];
+
+// first destructure the individual cars from the array
+const [honda, tesla] = cars
+
+// then destructure the properties from the object, assigning a new name to the topSpeed property and
+// setting <carname>TopColor to the first item in the coloursByPopularity array.
+const {speedStats: {topSpeed: hondaTopSpeed}, coloursByPopularity: [hondaTopColour]} = honda
+const {speedStats: {topSpeed: teslaTopSpeed}, coloursByPopularity: [teslaTopColour]} = tesla
+
+ReactDOM.render(
+  <table>
+    <tr>
+      <th>Brand</th>
+      <th>Top Speed</th>
+    </tr>
+    <tr>
+      <td>{tesla.model}</td>
+      <td>{teslaTopSpeed}</td>
+      <td>{teslaTopColour}</td>
+    </tr>
+    <tr>
+      <td>{honda.model}</td>
+      <td>{hondaTopSpeed}</td>
+      <td>{hondaTopColour}</td>
+    </tr>
+  </table>,
+  document.getElementById("root")
+);
+
+```
+
+result  
+
+|Brand|Top Speed|Top Colour|
+|-----|---------|----------|
+|Tesla Model 3|150|red|
+|Honda Civic|140|black|
