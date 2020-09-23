@@ -4,7 +4,7 @@
 
 In the render method you 'request' the component to be displayed and you pass along the data you would like to be displayed in that component. This data is passed as an object so you can use dot notation.
 
-```js
+```jsx
 const Card = (props) => {
   return (
     <div>
@@ -51,7 +51,7 @@ function App() {
 export default App;
 ```
 
-```js
+```jsx
 // Card.js
 
 import React from "react";
@@ -77,7 +77,7 @@ function Card(props) {
 export default Card;
 ```
 
-```js
+```jsx
 // Avatar.js
 
 import React from 'react';
@@ -94,7 +94,7 @@ export default Avatar;
 
 ## Mapping data to components
 
-```js
+```jsx
 import React from 'react';
 import Card from './Card';
 import contacts from '../contacts';
@@ -137,7 +137,7 @@ When using array.map(), only pass in the function name but don't call it, or alt
 
 yes:
 
-```js
+```jsx
 // yes
 //////
 const myFunction = (arrayItem) => {
@@ -161,7 +161,7 @@ array.map(myfunction(arrayItem));
 
 ### Filter
 
-```js
+```jsx
 array.filter((item) => {
   return; // condition
 });
@@ -169,7 +169,7 @@ array.filter((item) => {
 
 ### Reduce
 
-```js
+```jsx
 array.reduce((accumulator, newItem) => {
   return accumulator + newItem;
 });
@@ -177,7 +177,7 @@ array.reduce((accumulator, newItem) => {
 
 ### Find
 
-```js
+```jsx
 array.find((item) => {
   return; // condition
 });
@@ -187,7 +187,7 @@ array.find((item) => {
 
 Render one or the other
 
-```js
+```jsx
 function App() {
   return <div className='container'>
   <!-- ternary operator -->
@@ -198,7 +198,7 @@ function App() {
 
 Render one thing based on condition
 
-```js
+```jsx
 {
   currentTime > 12 ? <h1>Afternoon</h1> : null;
 }
@@ -212,7 +212,7 @@ condition && expression
 true && expression
 false && !expression
 
-```js
+```jsx
 {
   currentTime && <h1>Afternoon</h1>;
 }
@@ -233,7 +233,7 @@ Hooks are essentially functions that allow you to hook into the state of your ap
 useState() takes in a single argument, the initial state.  
 It return the current state and an update function.
 
-```js
+```jsx
 // useState(0) sets the initial state to 0
 // count is the current state
 // setCount is the update function
@@ -252,7 +252,7 @@ return (
 
 When destructuring an array you can use any name.  
 
-```js
+```jsx
 const animals = [
   {
     name: "cat",
@@ -272,7 +272,7 @@ console.log(c) // {name: "cat", sound: "mew"}
 
 When destructuring an object you have to use the name of the key.  
 
-```js
+```jsx
 const animals = {
   {
     name: "cat",
@@ -295,7 +295,7 @@ console.log(cat) // {name: "cat", sound: "mew"}
 
 Renaming destructured items.  
 
-```js
+```jsx
 const { name: catName, sound: catSound } = cat
 console.log(name) // undefined
 console.log(catName) // "cat"
@@ -303,7 +303,7 @@ console.log(catName) // "cat"
 
 You can assign a value to undefined keys.  
 
-```js
+```jsx
 const bird = {
   sound: "quack"
 }
@@ -321,8 +321,7 @@ console.log(food) // 2
 
 Example:
 
-```js
-// 
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 
@@ -383,3 +382,322 @@ result
 |-----|---------|----------|
 |Tesla Model 3|150|red|
 |Honda Civic|140|black|
+
+## Event Handling
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+
+  // handle state
+  const [ heading, setHeading ] = useState("Hello")
+  const [ mousedOver, setMousedOver] = useState(false)
+
+  // change state of heading on click
+  const onClick = () => {
+    setHeading("Submitted")
+  }
+
+  // change state of button color on mouseOver
+  const handleMouseOver = () => {
+    setMousedOver(!mousedOver)
+  }
+
+  return (
+    <div className="container">
+      <h1>{heading}</h1>
+      <input type="text" placeholder="What's your name?" />
+      <button style={{backgroundColor: mousedOver ? "black" : "white"}} onClick={onClick} onMouseOver={handleMouseOver} onMouseOut={handleMouseOver}>Submit</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+### React Forms & Controlled Components
+
+We handle the state of the user input with `[name, setName]`.  
+We get the data the user enters with `e.target.value`.
+`onChange` takes this data and uses it to update the state of `name`.
+Finally we set the `name` property of the input to value of the input.
+This is a controlled component: the value of the element name is the value of the state.
+State becomes the 'single source of truth'.
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+
+  // handle state
+  const [ name, setName ] = useState("")
+
+  const handleChange = () => {
+    setName(e.target.value)
+  }
+
+  return (
+    <div className="container">
+      <h1>{name}</h1>
+      <input onChange={handleChange} type="text" placeholder="What's your name?" name={name}/>
+      <button onClick={onClick}>Submit</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+#### Form submit
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+  const [ heading, setHeading ] = useState("")
+  const [name, setName ] = useState("")
+  const [ mousedOver, setMousedOver] = useState(false)
+
+  const handleChange = (e) => {
+    setName(e.target.value)
+  }
+
+  const handleSubmit = (e) => {
+    setHeading(name)
+    e.preventDefault()
+  }
+
+  return (
+    <div className="container">
+      <h1>Hello {heading}</h1>
+      <form onSubmit={handleSubmit}>
+        <input onChange={handleChange} type="text" placeholder="What's your name?" />
+        <button onClick={handleSubmit}>Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Changing complex state
+
+The old standard way
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+
+  const handleChange = (e) => {
+    e.target.name === "fName" ? setFirstName(e.target.value) : setLastName(e.target.value)
+  }
+
+  return (
+    <div className="container">
+      <h1>Hello {firstName} {lastName}</h1>
+      <form>
+        <input onChange={handleChange} value={firstName} name="fName" placeholder="First Name" />
+        <input onChange={handleChange} value={lastName} name="lName" placeholder="Last Name" />
+        <button>Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+
+```
+
+Keeping state in an object.  
+We must assign a constant to the target event name and value, because it is a 'synthetic' event, and cannot be called multiple times. <https://reactjs.org/docs/events.html>
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+
+  const [fullName, setFullName] = useState({
+    first: "",
+    last: "",
+  })
+
+  const handleChange = (e) => {
+    const { value, name } = e.target
+
+    name === "fName"
+    ?
+    setFullName({first: value, last: fullName.last})
+    :
+    setFullName({first: fullName.first, last: value})
+  }
+
+  return (
+    <div className="container">
+      <h1>Hello {fullName.first} {fullName.last}</h1>
+      <form>
+        <input onChange={handleChange} value={fullName.first} name="fName" placeholder="First Name" />
+        <input onChange={handleChange} value={fullName.last} name="lName" placeholder="Last Name" />
+        <button>Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Or using prevValue
+
+```jsx
+import React, { useState } from "react";
+
+function App() {
+
+  const [fullName, setFullName] = useState({
+    first: "",
+    last: "",
+  })
+
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    name === "fName"
+    ?
+    setFullName( (prevValue) => ({ first: value, last: prevValue.last }) )
+    :
+    setFullName( (prevValue) => ({ first: prevValue.first, last: value }) )
+  }
+
+  return (
+    <div className="container">
+      <h1>Hello {fullName.first} {fullName.last}</h1>
+      <form>
+        <input onChange={handleChange} value={fullName.first} name="fName" placeholder="First Name" />
+        <input onChange={handleChange} value={fullName.last} name="lName" placeholder="Last Name" />
+        <button>Submit</button>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Spread Operator
+
+This:  
+
+```js
+function App() {
+  const [contact, setContact] = useState({
+    fName: "",
+    lName: "",
+    email: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setContact((prevValue) => {
+      if (name === "fName") {
+        return {
+          fName: value,
+          lName: prevValue.lName,
+          email: prevValue.email
+        };
+      } else if (name === "lName") {
+        return {
+          fName: prevValue.fName,
+          lName: value,
+          email: prevValue.email
+        };
+      } else {
+        return {
+          fName: prevValue.fName,
+          lName: prevValue.lName,
+          email: value
+        };
+      }
+    });
+  };
+```
+
+can be reduced to this:  
+
+```js
+function App() {
+  const [contact, setContact] = useState({
+    fName: "",
+    lName: "",
+    email: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setContact((prevValue) => {
+      return {
+        ...prevValue,
+        [name]: value
+      }
+    });
+  };
+```
+
+We need to add the value that we want in an array syntax, otherwise it is interpreted as a string.  
+
+### Example: todo list
+
+```js
+import React, { useState } from "react";
+
+function App() {
+  const [input, setInput] = useState("");
+  const [todos, setTodos] = useState([]);
+
+  const handleChange = (e) => {
+    const value = e.target.value;
+    setInput(value);
+  };
+
+  const onSubmit = (e) => {
+    setTodos([...todos, input]);
+    setInput("");
+    e.preventDefault();
+  };
+
+  return (
+    <div className="container">
+      <div className="heading">
+        <h1>To-Do List</h1>
+      </div>
+      <div className="form">
+        <input
+          onChange={handleChange}
+          type="text"
+          name="todo"
+          placeholder="Todo"
+          value={input}
+        />
+        <button type="submit" onClick={onSubmit}>
+          <span>Add</span>
+        </button>
+      </div>
+      <div>
+        <ul>
+          {todos.map((todo) => {
+            return <li>{todo}</li>;
+          })}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export default App;
+```
