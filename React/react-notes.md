@@ -710,7 +710,6 @@ here we declare the function to delete an item. We get the id from when we map t
 
 We also pass the deleteItem function as a prop, which we then attach to item's onClick.  
 
-
 ```js
 // App.js
 
