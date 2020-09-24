@@ -701,3 +701,42 @@ function App() {
 
 export default App;
 ```
+
+## Managing a component tree
+
+When passing in props to a child component you can also pass functions which are then called by the child component.  
+
+here we declare the function to delete an item. We get the id from when we map through the items array, set the id to the index, and pass it along as a prop to the item component.  
+
+We also pass the deleteItem function as a prop, which we then attach to item's onClick.  
+
+
+```js
+// App.js
+
+const deleteItem = (id) => {
+  setItems(prevItems => {
+    return prevItems.filter((item, index) => {
+      return index !== id
+    })
+  })
+};
+
+<div>
+  <ul>
+    {items.map((todoItem, index) => (
+      <TodoItem key={index} id={index} text={todoItem} onChecked={deleteItem} />
+    ))}
+  </ul>
+</div>
+```
+
+```js
+// TodoItem.js
+
+const TodoItem = (props) => {
+  return <li onClick={() => {
+    props.onChecked(props.id)
+  }}>{props.text}</li>;
+};
+```
