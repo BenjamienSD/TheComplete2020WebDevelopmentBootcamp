@@ -43,8 +43,6 @@ Collection of all projects made in the bootcamp.
 
 ## React
 
-coming up:
-
 • Registration screen  
 • Clock  
 • Emoji dictionary  
